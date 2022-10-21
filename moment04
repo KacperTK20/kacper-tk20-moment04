@@ -1,0 +1,136 @@
+#Kacper Strzelecki TK20
+#Moment04
+
+list_a = []
+list_b = []
+area_list = []
+fig_list = []
+list_höjd = []
+
+#definiera funktionen för angiven sida
+def sida_1():
+    #att spara variabeln global, för att andra funktioner kan använda de variabelrna 
+    global A
+    global list_a
+    #ange värde så lång som det är ett heltal som möter if-satser
+    while True:
+        try:
+            A = int(input("Ange rektangels ena sida: "))
+            if A >= 0:
+                #spara värden i en lista
+                list_a.append(A)
+                break
+            elif A < 0:
+                print("Ange ett positivt heltal!")
+        except:
+            print("Ange ett heltal!")
+#samma som sida1(), men med andra variabeln
+def sida_2():
+    global B
+    global list_b
+    while True:
+        try:
+            B = int(input("Ange rektangels andra sida: "))
+            if B >= 0:
+                list_b.append(B)
+                break
+            elif B < 0:
+                print("Ange ett positivt heltal!")
+        except:
+            print("Ange ett heltal!")
+
+#funktionen för att spara areor
+def area_f():
+    global area
+    global fig_list
+    global area_list
+    area = A * B
+    area_list.append(area)
+
+#funktionen som bestämmer om figuren är en kvadrat eller en rektangel
+def figuren():
+    if A == B:
+        print("Rektangeln har sidorna: " + str(A) + " l.e. and " + str(B) + " l.e. vilket gör att arean är: " + str(area) + " a.e., rektangeln är en kvadrat")
+        fig_list.append("K")
+    else:
+        print("Rektangeln har sidorna: " + str(A) + " l.e. and " + str(B) + " l.e. vilket gör att arean är: " + str(area) + " a.e.")
+        fig_list.append("R")
+#funkionen som bestämmer höjd
+def höjd_f():
+    global höjd
+    global list_höjd
+    while True:
+        try:
+            höjd = int(input("Ange höjd: "))
+            #höjd större än 10 anges som 10
+            if höjd > 10:
+                höjd = 10
+                list_höjd.append(höjd)
+                break
+            #negativa höjder ej finns, då byts den med 1
+            elif höjd < 0:
+                höjd = 1
+                list_höjd.append(höjd)
+                break
+            #höjd mellan 1 och 9 sparas 
+            else:
+                list_höjd.append(höjd)
+                break
+        except:
+            print("Ange ett heltal!")
+#bestämma volym och och skriva ut resultatet
+def volym():
+    print("""
+| Höjden  | Volymen   |
+-----------------------""")
+#för varje höjd i intervallet 1-angiven höjd, ska beräknas volym
+    for i in range(0,höjd):
+        #för att python läser variabel från 0, behövs det adderas 1 för att kunna beräkna volym korrekt
+        h = i + 1
+        V = area * h
+        #skriva ut resultatet
+        print("""| {0:4} le | {1:6} ve |
+""".format(h,V))
+
+#slutlig funktion som skriver ut alla redan skapade tabeller
+
+def end(): 
+    #för alla tabeller
+    for i in range(0, len(list_a)):
+        print("""
+--------------------------------------------------------------------
+""")
+        #figuren(), men ej sparas värderna i listan, utan de läser värderna från listan
+        if fig_list[i] == "K":
+            print("Rektangels sidorna är: "+ str(list_a[i]) + " l.e. och " + str(list_b[i]) + " l.e, vilket gör att arean är: " + str(area_list[i]) + " a.e., rektangeln är en kvadrat")
+        if fig_list[i] == "R":
+            print("Rektangels sidorna är: "+ str(list_a[i]) + " l.e. och " + str(list_b[i]) + " l.e, vilket gör att arean är: " + str(area_list[i]) + " a.e.")
+        print("""
+| Höjden  | Volymen   |
+-----------------------""")
+        #beräkning volym
+        for e in range(0,list_höjd[i]):
+            h = e + 1
+            V = area_list[i] * h
+            print("""| {0:4} le | {1:6} ve |
+""".format(h,V))
+
+#hela programet i en funktion
+def funktion():
+    #Om menu är inte N, programmet körs
+    while True:
+        sida_1()
+        sida_2()
+        area_f()
+        figuren()
+        höjd_f()
+        volym()
+        #möjlighet att avbryta loopet
+        menu = input("Vill du fortsätta använda programen? Ange n om du vill avsluta: " ).strip().upper()
+        if menu == "N":
+            break
+    #skriva ut tabeller
+    end()
+            
+#run
+funktion()
